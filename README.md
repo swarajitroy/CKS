@@ -1,6 +1,6 @@
 # CKS
 
-## Cluster Setup (10%)
+## A. Cluster Setup (10%)
 ---
 | ID | Topic | Remarks |
 | ----------- | ----------- | ----------- |
