@@ -47,3 +47,10 @@ ami-01e7ca2ef94a0ae86
 
 ```
 So the pod is able to reach the node meta data endpoint. 
+
+One way to protect this would be to use Kubernetes Network Policies to stop the pods to egress to 169.254.169.254. We can do couple of things, 
+
+- Apply a network policy to stop any pods to egress to 169.254.169.254
+- Update the network policy to stop all pods egress to 169.254.169.254 except the ones which has a label named "allow-node-metadata-lookup" 
+
+
