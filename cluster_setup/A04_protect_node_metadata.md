@@ -103,3 +103,77 @@ Spec:
        
     
 ```
+
+We can now try to exec to the pod again and run curl to get node metadata and can find that traffic is blocked
+
+```
+ubuntu@ip-172-31-22-219:~$ kubectl exec -it testpod -- /bin/sh
+# curl -H "X-aws-ec2-metadata-token: $TOKEN" -v http://169.254.169.254/latest/meta-data/ami-id
+* Expire in 0 ms for 6 (transfer 0x557f74ae1fb0)
+*   Trying 169.254.169.254...
+* TCP_NODELAY set
+* Expire in 200 ms for 4 (transfer 0x557f74ae1fb0)
+* connect to 169.254.169.254 port 80 failed: Connection timed out
+* Failed to connect to 169.254.169.254 port 80: Connection timed out
+* Closing connection 0
+curl: (7) Failed to connect to 169.254.169.254 port 80: Connection timed out
+
+
+```
+
+Now - we can add another network policy to allow certain pods with a label to be still access to node metadata. The network policy design will be something like below, we use a podSelector to match label and egress to exactly that IP address only
+
+```
+ubuntu@ip-172-31-22-219:~$ cat allow_node_metadata_network.yaml
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-node-metadata-network-policy
+  namespace: default
+spec:
+  podSelector:
+    matchLabels:
+      role: allow-node-metadata
+  policyTypes:
+  - Egress
+  egress:
+  - to:
+    - ipBlock:
+        cidr: 169.254.169.254/32
+
+ubuntu@ip-172-31-22-219:~$ kubectl describe netpol allow-node-metadata-network-policy
+Name:         allow-node-metadata-network-policy
+Namespace:    default
+Created on:   2021-06-01 16:37:01 +0000 UTC
+Labels:       <none>
+Annotations:  <none>
+Spec:
+  PodSelector:     role=allow-node-metadata
+  Not affecting ingress traffic
+  Allowing egress traffic:
+    To Port: <any> (traffic allowed to all ports)
+    To:
+      IPBlock:
+        CIDR: 169.254.169.254/32
+        Except:
+  Policy Types: Egress
+
+```
+
+Now we label our nginix pod 
+
+```
+ubuntu@ip-172-31-22-219:~$ kubectl label pod testpod  role=allow-node-metadata
+pod/testpod labeled
+ubuntu@ip-172-31-22-219:~$ kubectl get pods --show-labels
+NAME      READY   STATUS    RESTARTS   AGE   LABELS
+testpod   1/1     Running   0          35m   role=allow-node-metadata,run=testpod
+
+```
+and we test again 
+
+```
+ubuntu@ip-172-31-22-219:~$ kubectl exec -it testpod -- /bin/sh
+#curl -H "X-aws-ec2-metadata-token: $TOKEN" -v http://169.254.169.254/latest/meta-data/ami-id
+ami-01e7ca2ef94a0ae86
+```
