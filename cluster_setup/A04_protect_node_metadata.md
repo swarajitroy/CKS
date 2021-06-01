@@ -53,4 +53,29 @@ One way to protect this would be to use Kubernetes Network Policies to stop the 
 - Apply a network policy to stop any pods to egress to 169.254.169.254
 - Update the network policy to stop all pods egress to 169.254.169.254 except the ones which has a label named "allow-node-metadata-lookup" 
 
+The following network policy , with a podSelector: {} - selects all the pods for the policy and egress policy of any network (0.0.0.0/0)  except 169.254.169.254/32 - which boils down the IP address on  169.254.169.254/32
 
+
+```
+
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: test-network-policy
+  namespace: default
+spec:
+  podSelector: {}
+   
+  policyTypes:
+  - Egress
+  egress:
+  - to:
+    - ipBlock:
+        cidr: 0.0.0.0/0
+        except:
+        - 169.254.169.254/32
+        
+       
+        
+    
+```
