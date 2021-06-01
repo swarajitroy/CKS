@@ -61,7 +61,7 @@ The following network policy , with a podSelector: {} - selects all the pods for
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
-  name: test-network-policy
+  name: deny-node-metadata-network-policy
   namespace: default
 spec:
   podSelector: {}
