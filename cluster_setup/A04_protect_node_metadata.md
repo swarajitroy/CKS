@@ -14,6 +14,7 @@ ip-172-31-22-219   Ready    control-plane,master   51d   v1.21.0   172.31.22.219
 We can SSH to either the master or worker node and run the following command, and get a response
 
 ```
+ubuntu@ip-172-31-22-219:~$TOKEN=`curl -X PUT "http://169.254.169.254/latest/api/token"
 ubuntu@ip-172-31-22-219:~$ curl -H "X-aws-ec2-metadata-token: $TOKEN" -v http://169.254.169.254/latest/meta-data/ami-id
 ami-01e7ca2ef94a0ae86
 ```
@@ -42,6 +43,7 @@ Now - its possible to exec to the container and ask the meta data service about 
 ```
 ubuntu@ip-172-31-22-219:~$ kubectl exec -it testpod -- /bin/sh
 # 
+$TOKEN=`curl -X PUT "http://169.254.169.254/latest/api/token"
 curl -H "X-aws-ec2-metadata-token: $TOKEN" -v http://169.254.169.254/latest/meta-data/ami-id
 ami-01e7ca2ef94a0ae86
 
