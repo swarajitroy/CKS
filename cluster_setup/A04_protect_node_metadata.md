@@ -57,7 +57,7 @@ The following network policy , with a podSelector: {} - selects all the pods for
 
 
 ```
-
+ubuntu@ip-172-31-22-219:~$ cat deny_node_metadata_network.yaml
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
@@ -65,7 +65,7 @@ metadata:
   namespace: default
 spec:
   podSelector: {}
-   
+
   policyTypes:
   - Egress
   egress:
@@ -74,8 +74,32 @@ spec:
         cidr: 0.0.0.0/0
         except:
         - 169.254.169.254/32
+
         
        
-        
+ubuntu@ip-172-31-22-219:~$ kubectl create -f deny_node_metadata_network.yaml
+networkpolicy.networking.k8s.io/deny-node-metadata-network-policy created
+
+ubuntu@ip-172-31-22-219:~$ kubectl get netpol
+NAME                                POD-SELECTOR   AGE
+deny-node-metadata-network-policy   <none>         17s
+
+ubuntu@ip-172-31-22-219:~$ kubectl describe netpol deny-node-metadata-network-policy
+Name:         deny-node-metadata-network-policy
+Namespace:    default
+Created on:   2021-06-01 16:25:35 +0000 UTC
+Labels:       <none>
+Annotations:  <none>
+Spec:
+  PodSelector:     <none> (Allowing the specific traffic to all pods in this namespace)
+  Not affecting ingress traffic
+  Allowing egress traffic:
+    To Port: <any> (traffic allowed to all ports)
+    To:
+      IPBlock:
+        CIDR: 0.0.0.0/0
+        Except: 169.254.169.254/32
+  Policy Types: Egress
+       
     
 ```
