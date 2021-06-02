@@ -216,3 +216,12 @@ ubuntu@ip-172-31-22-219:~$ curl https://18.116.44.127:31934/foo -kv
 Application Service [A]
 
 ```
+
+Now - lets create our own self signed certificate and attach it with a domain name - let it be **cks-secure-ingress.com**. The domain name should match the CN name value when we prepare the certificate. Let us prepare the certificate, wrap it in a Kubernetes secret of TLS type and attach the domain name and certificate (as secret) in the Ingress object.
+
+```
+ubuntu@ip-172-31-22-219:~$  openssl req -x509 -newkey  rsa:4096 -keyout key.pem -out cert.pem -days 365 -nodes
+
+
+
+```
