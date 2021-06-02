@@ -184,3 +184,35 @@ C:\Users\SWARAJITROY>curl http://18.x.y.127:30996/foo
 Application Service [A]
 
 ```
+
+## Securing the Ingress 
+---
+
+Ideally we would like to use HTTP(S) and as you can see - the HTTPS traffic (port 443) is based on the port 31934 in my setup. We try the HTTP(s) and here is result
+
+```
+C:\Users\SWARAJITROY>curl https://18.x.y.127:31934/foo
+curl: (77) schannel: next InitializeSecurityContext failed: SEC_E_UNTRUSTED_ROOT (0x80090325) - The certificate chain was issued by an authority that is not trusted.
+
+```
+So - its pretty clear - NGINX Ingress Controller does provide a certificate by default - but its a self signed one and curl does not trust it. However we could make curl accept it anyway by passing a -k parameter.
+
+```
+C:\Users\SWARAJITROY>curl https://18.116.44.127:31934/foo -k
+Application Service [A]
+
+```
+Its worth taking a look into the details of this SSL handshake and certififcate by running curl is verbose mode (-v)
+
+```
+ubuntu@ip-172-31-22-219:~$ curl https://18.116.44.127:31934/foo -kv
+* Server certificate:
+*  subject: O=Acme Co; CN=Kubernetes Ingress Controller Fake Certificate
+*  start date: Jun  2 10:33:41 2021 GMT
+*  expire date: Jun  2 10:33:41 2022 GMT
+*  issuer: O=Acme Co; CN=Kubernetes Ingress Controller Fake Certificate
+*  SSL certificate verify result: unable to get local issuer certificate (20), continuing anyway.
+
+Application Service [A]
+
+```
