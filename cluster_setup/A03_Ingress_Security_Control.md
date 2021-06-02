@@ -41,7 +41,7 @@ ingress-nginx-controller-admission   ClusterIP   10.106.210.60   <none>        4
 We will setup a NGINX based application - with a customized index.html. It will be exposed as a ClusterIP service and based on a deployment. 
 
 ```
-echo "Application Service [A]" > index.html
+ubuntu@ip-172-31-22-219:~$ echo "Application Service [A]" > index.html
 
 ubuntu@ip-172-31-22-219:~$ kubectl create configmap service-a-index-html-configmap --from-file=index.html
 configmap/service-a-index-html-configmap created
@@ -131,4 +131,56 @@ Events:            <none>
 ## Setup an Ingress 
 ---
 
+```
+ubuntu@ip-172-31-22-219:~$ cat ingress.yaml
 
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: application-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  rules:
+   - http:
+      paths:
+      - path: /foo
+        pathType: Prefix
+        backend:
+          service:
+            name: application-a
+            port:
+              number: 8000
+
+ubuntu@ip-172-31-22-219:~$ kubectl create -f ingress.yaml
+ubuntu@ip-172-31-22-219:~$ kubectl get ingress
+NAME                  CLASS    HOSTS   ADDRESS        PORTS   AGE
+application-ingress   <none>   *       172.31.17.89   80      117m
+
+ubuntu@ip-172-31-22-219:~$ kubectl describe ingress application-ingress
+Name:             application-ingress
+Namespace:        default
+Address:          172.31.17.89
+Default backend:  default-http-backend:80 (<error: endpoints "default-http-backend" not found>)
+Rules:
+  Host        Path  Backends
+  ----        ----  --------
+  *
+              /foo   application-a:8000 (10.44.0.4:80)
+Annotations:  nginx.ingress.kubernetes.io/rewrite-target: /
+Events:       <none>
+
+
+```
+
+Now - check the port of the Ingress Controller NodePort service, we could identify its 30996 for HTTP traffic. Once we get the public IP address of the kubernetes Worker node we can test the ingress from a local laptop having internet connectivity
+
+```
+ubuntu@ip-172-31-22-219:~$ kubectl get services ingress-nginx-controller -n ingress-nginx
+NAME                       TYPE       CLUSTER-IP      EXTERNAL-IP   PORT(S)                      AGE
+ingress-nginx-controller   NodePort   10.102.30.203   <none>        80:30996/TCP,443:31934/TCP   6h17m
+
+C:\Users\SWARAJITROY>curl http://18.x.y.127:30996/foo
+Application Service [A]
+
+```
