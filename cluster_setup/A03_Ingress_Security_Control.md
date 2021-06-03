@@ -250,13 +250,13 @@ Email Address []:
 You can visit websites like https://www.sslshopper.com/certificate-decoder.html - paste the certificate content 
 
 Certificate Information:
-Common Name: cks-secure-ingress.com
-Organization: Swarajit UlearnUHelp
-Organization Unit: IT
-Locality: Kolkata
-State: West Bengal
-Country: IN
-Valid From: June 2, 2021
-Valid To: June 2, 2022
-Issuer: cks-secure-ingress.com, Swarajit UlearnUHelp
-Serial Number: 752f7b798a16c324807ec416ade7bbcf1fab84aa
+- Common Name: cks-secure-ingress.com
+- Organization: Swarajit UlearnUHelp
+- Organization Unit: IT
+- Locality: Kolkata
+- State: West Bengal
+- Country: IN
+- Valid From: June 2, 2021
+- Valid To: June 2, 2022
+- Issuer: cks-secure-ingress.com, Swarajit UlearnUHelp
+- Serial Number: 752f7b798a16c324807ec416ade7bbcf1fab84aa
