@@ -220,8 +220,43 @@ Application Service [A]
 Now - lets create our own self signed certificate and attach it with a domain name - let it be **cks-secure-ingress.com**. The domain name should match the CN name value when we prepare the certificate. Let us prepare the certificate, wrap it in a Kubernetes secret of TLS type and attach the domain name and certificate (as secret) in the Ingress object.
 
 ```
-ubuntu@ip-172-31-22-219:~$  openssl req -x509 -newkey  rsa:4096 -keyout key.pem -out cert.pem -days 365 -nodes
 
+ubuntu@ip-172-31-22-219:~$ openssl req -x509 -newkey  rsa:4096 -keyout key.pem -out cert.pem -days 365 -nodes
+Can't load /home/ubuntu/.rnd into RNG
+139940285829568:error:2406F079:random number generator:RAND_load_file:Cannot open file:../crypto/rand/randfile.c:88:Filename=/home/ubuntu/.rnd
+Generating a RSA private key
+...........................................................................++++
+.........................................................................................................................................................++++
+writing new private key to 'key.pem'
+-----
+You are about to be asked to enter information that will be incorporated
+into your certificate request.
+What you are about to enter is what is called a Distinguished Name or a DN.
+There are quite a few fields but you can leave some blank
+For some fields there will be a default value,
+If you enter '.', the field will be left blank.
+-----
+Country Name (2 letter code) [AU]:IN
+State or Province Name (full name) [Some-State]:West Bengal
+Locality Name (eg, city) []:Kolkata
+Organization Name (eg, company) [Internet Widgits Pty Ltd]:Swarajit UlearnUHelp
+Organizational Unit Name (eg, section) []:IT
+Common Name (e.g. server FQDN or YOUR name) []:cks-secure-ingress.com
+Email Address []:
 
 
 ```
+
+You can visit websites like https://www.sslshopper.com/certificate-decoder.html - paste the certificate content 
+
+Certificate Information:
+Common Name: cks-secure-ingress.com
+Organization: Swarajit UlearnUHelp
+Organization Unit: IT
+Locality: Kolkata
+State: West Bengal
+Country: IN
+Valid From: June 2, 2021
+Valid To: June 2, 2022
+Issuer: cks-secure-ingress.com, Swarajit UlearnUHelp
+Serial Number: 752f7b798a16c324807ec416ade7bbcf1fab84aa
