@@ -15,5 +15,8 @@
 ---
 | ID | Topic | Remarks |
 | ----------- | ----------- | ----------- |
-| 01 | Restrict access to Kubernetes API |   |
-| 02 | Use Role Based access control to minimize exposure |   |
+| 01 | Use Role Based access control (RBAC) to minimize exposure |   |
+| 02 | Restrict access to Kubernetes API | |
+| 03 | Excercise caution in using ServiceAccounts e.g disable defaults, minimize permissions on newly created ones | |
+| 04 | Update Kubernetes Frequently | |
+
