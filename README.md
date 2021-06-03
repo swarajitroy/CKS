@@ -10,3 +10,10 @@
 | 04 | [Protect node metadata and endpoints](https://github.com/swarajitroy/CKS/blob/main/cluster_setup/A04_protect_node_metadata.md)|| 
 | 05 | Minimize use of and access to GUI elements ||
 | 06 | Verify platform binaries before deploying ||
+
+## B. Cluster Hardening (15%)
+---
+| ID | Topic | Remarks |
+| ----------- | ----------- | ----------- |
+| 01 | Restrict access to Kubernetes API |   |
+| 02 | Use Role Based access control to minimize exposure |   |
