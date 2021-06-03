@@ -281,3 +281,52 @@ tls.crt:  2106 bytes
 
 
 ```
+Now - we will update the Ingress object to assign a domain and TLS details. 
+
+```
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+  name: application-ingress
+  namespace: default
+spec:
+  rules:
+  - host: cks-secure-ingress.com
+    http:
+      paths:
+      - backend:
+          service:
+            name: application-a
+            port:
+              number: 8000
+        path: /foo
+        pathType: Prefix
+  tls:
+  - hosts:
+    - cks-secure-ingress.com
+    secretName: cks-ingress-secret
+
+~
+
+```
+
+and test the application
+              
+```
+ubuntu@ip-172-31-22-219:~$ curl https://cks-secure-ingress.com:31934/foo -kv --resolve cks-secure-ingress.com:31934:18.y.z.127
+* Added cks-secure-ingress.com:31934:18.y.z.127 to DNS cache
+* Hostname cks-secure-ingress.com was found in DNS cache
+
+* Server certificate:
+*  subject: C=IN; ST=West Bengal; L=Kolkata; O=Swarajit UlearnUHelp; OU=IT; CN=cks-secure-ingress.com
+*  start date: Jun  3 04:16:34 2021 GMT
+*  expire date: Jun  3 04:16:34 2022 GMT
+*  issuer: C=IN; ST=West Bengal; L=Kolkata; O=Swarajit UlearnUHelp; OU=IT; CN=cks-secure-ingress.com
+*  SSL certificate verify result: self signed certificate (18), continuing anyway.
+
+Application Service [A]
+
+
+```
