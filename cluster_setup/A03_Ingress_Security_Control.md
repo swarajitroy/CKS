@@ -260,3 +260,24 @@ Certificate Information:
 - Valid To: June 2, 2022
 - Issuer: cks-secure-ingress.com, Swarajit UlearnUHelp
 - Serial Number: 752f7b798a16c324807ec416ade7bbcf1fab84aa
+
+Now let us create a Kubernetes Secret of TLS type with the private key and cetificate we generated.
+
+```
+ubuntu@ip-172-31-22-219:~$ kubectl create secret tls cks-ingress-secret --cert=cert.pem --key=key.pem
+secret/cks-ingress-secret created
+ubuntu@ip-172-31-22-219:~$ kubectl describe secret cks-ingress-secret
+Name:         cks-ingress-secret
+Namespace:    default
+Labels:       <none>
+Annotations:  <none>
+
+Type:  kubernetes.io/tls
+
+Data
+====
+tls.key:  3272 bytes
+tls.crt:  2106 bytes
+
+
+```
