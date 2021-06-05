@@ -20,3 +20,12 @@
 | 03 | Excercise caution in using ServiceAccounts e.g disable defaults, minimize permissions on newly created ones | |
 | 04 | Update Kubernetes Frequently | |
 
+## C. System Hardening (15%)
+---
+| ID | Topic | Remarks |
+| ----------- | ----------- | ----------- |
+| 01 | Minimize host OS footprint (reduce attack surface) |   |
+| 02 | Minimize IAM Roles |   |
+| 03 | Minimize external access to the network |   |
+| 04 | Appropritately use Kernel hardening tools such as AppArmor, Seccomp |   |
+
