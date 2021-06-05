@@ -29,3 +29,11 @@
 | 03 | Minimize external access to the network |   |
 | 04 | Appropritately use Kernel hardening tools such as AppArmor, Seccomp |   |
 
+## D. Minimize Microservices Vulenerabilitie
+---
+| ID | Topic | Remarks |
+| ----------- | ----------- | ----------- |
+| 01 | Setup appropriate OS Leve security domains - PodSecurityPolicies, OPA, SecurityContext |   |
+| 02 | Manage Kubernetes Secrets |   |
+| 03 | Use Container runtime sandboxes - gvisor, kata containers |   |
+| 04 | Implement pod to pod encryption - mTLS |   |
