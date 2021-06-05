@@ -33,7 +33,7 @@
 ---
 | ID | Topic | Remarks |
 | ----------- | ----------- | ----------- |
-| 01 | Setup appropriate OS Leve security domains - PodSecurityPolicies, OPA, SecurityContext |   |
+| 01 | [Setup appropriate OS Leve security domains - PodSecurityPolicies, OPA, SecurityContext](https://github.com/swarajitroy/CKS/blob/main/minimize_microservice_vulnerability/A01_SC_PSP_OPA.md) |   |
 | 02 | Manage Kubernetes Secrets |   |
 | 03 | Use Container runtime sandboxes - gvisor, kata containers |   |
 | 04 | Implement pod to pod encryption - mTLS |   |
