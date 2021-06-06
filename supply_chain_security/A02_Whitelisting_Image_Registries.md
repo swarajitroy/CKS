@@ -38,3 +38,37 @@ This can be acheived via AdmissionControllers in Kubernetes. There are multiple 
 1. Try to run an image from a repostory from Docker and not using LATEST tag - it should pass
 2. Try to run an image from a repostory from Docker and using LATEST tag - it should fail
 3. Try to run an image from a repostory from Quay and not using LATEST tag - it should fail
+
+```
+
+kind: Deployment
+metadata:
+  name: image-bouncer-webhook
+spec:
+  selector:
+    matchLabels:
+      app: image-bouncer-webhook
+  template:
+    metadata:
+      labels:
+        app: image-bouncer-webhook
+    spec:
+      containers:
+        - name: image-bouncer-webhook
+          imagePullPolicy: Always
+          image: "kainlite/kube-image-bouncer:latest"
+          args:
+            - "--cert=/etc/admission-controller/tls/tls.crt"
+            - "--key=/etc/admission-controller/tls/tls.key"
+            - "--debug"
+            - "--registry-whitelist=docker.io,k8s.gcr.io"
+          volumeMounts:
+            - name: tls
+              mountPath: /etc/admission-controller/tls
+      volumes:
+        - name: tls
+          secret:
+            secretName: tls-image-bouncer-webhook
+                                                      
+```                                                      
+                                                      
