@@ -55,6 +55,8 @@ func main() {
 ## The image without Multistage build 
 ---
 
+Create a Dockerfile.
+
 ```
 
 FROM golang:1.13-alpine3.11
@@ -65,6 +67,53 @@ RUN CGO_ENABLED=0 GOOS=linux go build -a -o swararoy-http-server .
 
 # executable
 ENTRYPOINT [ "./swararoy-http-server" ]
+
+
+```
+
+Do a Docker built
+
+```
+
+ubuntu@ip-172-31-22-219:~/go_server$ ls
+Dockerfile  swararoy-http-server.go
+ubuntu@ip-172-31-22-219:~/go_server$ sudo docker build -t swararoy-http-server:v1 .
+Sending build context to Docker daemon  3.072kB
+Step 1/6 : FROM golang:1.13-alpine3.11
+1.13-alpine3.11: Pulling from library/golang
+cbdbe7a5bc2a: Pull complete
+408f87550127: Pull complete
+fe522b08c979: Pull complete
+274b9d9af2b4: Pull complete
+53955a7f64a2: Pull complete
+Digest: sha256:ec6dcf15073c307fbcfc3149efe8835f3ec2bd0a0cb49aaaee4949cfc4c86b65
+Status: Downloaded newer image for golang:1.13-alpine3.11
+ ---> eff4fd40cebc
+Step 2/6 : RUN mkdir /build
+ ---> Running in 4e02f9677851
+Removing intermediate container 4e02f9677851
+ ---> eec6e86535aa
+Step 3/6 : ADD *.go /build/
+ ---> 631e857650b1
+Step 4/6 : WORKDIR /build
+ ---> Running in 1fb612e8ac7d
+Removing intermediate container 1fb612e8ac7d
+ ---> 9671900cb8f8
+Step 5/6 : RUN CGO_ENABLED=0 GOOS=linux go build -a -o swararoy-http-server .
+ ---> Running in 859c632d95e6
+Removing intermediate container 859c632d95e6
+ ---> 8a45250854ad
+Step 6/6 : ENTRYPOINT [ "./swararoy-http-server" ]
+ ---> Running in 96d8aeeaa538
+Removing intermediate container 96d8aeeaa538
+ ---> bd043497a603
+Successfully built bd043497a603
+Successfully tagged swararoy-http-server:v1
+
+```
+Run the image
+
+```
 
 
 ```
