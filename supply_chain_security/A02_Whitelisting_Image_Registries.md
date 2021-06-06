@@ -71,7 +71,7 @@ Design a Pod with image flavio/kube-image-bouncer, with a command argument to wh
 Expose the deployment as a NodePort Service.
 
 ```
-
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: image-bouncer-webhook
@@ -89,8 +89,8 @@ spec:
           imagePullPolicy: Always
           image: "kainlite/kube-image-bouncer:latest"
           args:
-            - "--cert=/etc/admission-controller/tls/tls.crt"
-            - "--key=/etc/admission-controller/tls/tls.key"
+            - "--cert=/etc/admission-controller/tls/webhook.pem"
+            - "--key=/etc/admission-controller/tls/webhook-key.pem"
             - "--debug"
             - "--registry-whitelist=docker.io,k8s.gcr.io"
           volumeMounts:
