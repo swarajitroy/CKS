@@ -8,10 +8,16 @@ This can be acheived via AdmissionControllers in Kubernetes. There are multiple 
 
 For our work - we will do 1 and 3. 
 
-## ImagePolicyWebhook 
+## 01. ImagePolicyWebhook 
 ---
 
 - Setup the Webhook - which knows how to parse requests coming from the Kubernetes API Server and reply is the proper format (yes/no) for decision making
 - Enable ImagePolicyWebhook at the API Server 
 - Test a scenario
 
+### 01.A Setup the Webhook
+---
+
+1. We will use a docker image as described at https://github.com/kainlite/kube-image-bouncer - flavio/kube-image-bouncer
+2. Create the Certificate and Private Key using OpenSSL (server side - which is the Kube Image Bouncer)
+3. 
