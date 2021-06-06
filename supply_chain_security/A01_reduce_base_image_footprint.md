@@ -16,7 +16,7 @@ consumption and reuse.
 ## The application
 ---
 
-We can use the following code (save it in a file called swararoy-http-server.go
+We can use the following code (save it in a file called swararoy-http-server.go)
 
 ```
 
@@ -48,6 +48,23 @@ func main() {
 
     http.ListenAndServe(":8090", nil)
 }
+
+
+```
+
+## The image without Multistate build 
+---
+
+```
+
+FROM golang:1.13-alpine3.11
+RUN mkdir /build
+ADD *.go /build/
+WORKDIR /build
+RUN CGO_ENABLED=0 GOOS=linux go build -a -o swararoy-http-server .
+
+# executable
+ENTRYPOINT [ "./swararoy-http-server" ]
 
 
 ```
