@@ -29,7 +29,7 @@
 | 03 | Minimize external access to the network |   |
 | 04 | Appropritately use Kernel hardening tools such as AppArmor, Seccomp |   |
 
-## D. Minimize Microservices Vulenerabilitie
+## D. Minimize Microservices Vulnerabilities
 ---
 | ID | Topic | Remarks |
 | ----------- | ----------- | ----------- |
@@ -37,3 +37,12 @@
 | 02 | Manage Kubernetes Secrets |   |
 | 03 | Use Container runtime sandboxes - gvisor, kata containers |   |
 | 04 | Implement pod to pod encryption - mTLS |   |
+
+## E. Supply Chain Security
+---
+| ID | Topic | Remarks |
+| ----------- | ----------- | ----------- |
+| 01 | Minimize Base image footprint |   |
+| 02 | Whitelisting allowed image registry, sign and validate images |   |
+| 03 | Use Static Analysis of user workloads - Kubernetes Manifests and Docker files |   |
+| 04 | Scan Images for known Vulnerability |   |
