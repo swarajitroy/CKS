@@ -100,7 +100,26 @@ spec:
         - name: tls
           secret:
             secretName: tls-image-bouncer-webhook
-                                                      
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: image-bouncer-webhook
+  name: image-bouncer-webhook
+spec:
+  type: NodePort
+  ports:
+    - name: https
+      port: 443
+      targetPort: 1323
+      protocol: "TCP"
+      nodePort: 30080
+  selector:
+    app: image-bouncer-webhook
+
+
 ```                
 
 ### 01.B Enable ImagePolicyWebhook at the API Server 
