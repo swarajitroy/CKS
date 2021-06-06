@@ -129,3 +129,74 @@ REPOSITORY             TAG               IMAGE ID       CREATED          SIZE
 swararoy-http-server   v1                bd043497a603   27 minutes ago   393MB
 
 ```
+
+## The image with Multistage build 
+---
+
+```
+ubuntu@ip-172-31-22-219:~/go_server$ cat Dockerfile
+FROM golang:1.13-alpine3.11 AS builder
+RUN mkdir /build
+ADD *.go /build/
+WORKDIR /build
+RUN CGO_ENABLED=0 GOOS=linux go build -a -o swararoy-http-server .
+
+#
+# generate clean, final image for end users
+#
+FROM alpine
+
+# copy golang binary into container
+COPY --from=builder /build/swararoy-http-server .
+
+# executable
+ENTRYPOINT [ "./swararoy-http-server" ]
+
+
+ubuntu@ip-172-31-22-219:~/go_server$ sudo docker build -t swararoy-multistage-http-server:v1 .
+Sending build context to Docker daemon  4.096kB
+Step 1/8 : FROM golang:1.13-alpine3.11 AS builder
+ ---> eff4fd40cebc
+Step 2/8 : RUN mkdir /build
+ ---> Using cache
+ ---> eec6e86535aa
+Step 3/8 : ADD *.go /build/
+ ---> Using cache
+ ---> 631e857650b1
+Step 4/8 : WORKDIR /build
+ ---> Using cache
+ ---> 9671900cb8f8
+Step 5/8 : RUN CGO_ENABLED=0 GOOS=linux go build -a -o swararoy-http-server .
+ ---> Using cache
+ ---> 8a45250854ad
+Step 6/8 : FROM alpine
+latest: Pulling from library/alpine
+540db60ca938: Pull complete
+Digest: sha256:69e70a79f2d41ab5d637de98c1e0b055206ba40a8145e7bddb55ccc04e13cf8f
+Status: Downloaded newer image for alpine:latest
+ ---> 6dbb9cc54074
+Step 7/8 : COPY --from=builder /build/swararoy-http-server .
+ ---> b33ccebc1d48
+Step 8/8 : ENTRYPOINT [ "./swararoy-http-server" ]
+ ---> Running in 3679944020a6
+Removing intermediate container 3679944020a6
+ ---> 126a4de775d6
+Successfully built 126a4de775d6
+Successfully tagged swararoy-multistage-http-server:v1
+
+ubuntu@ip-172-31-22-219:~/go_server$ sudo docker run -d -p 8090:8090 swararoy-multistage-http-server:v1
+9b9ad2f5ac25beb2f627d99ed5781b6b42afda8cb43c875f7261b6cb981d5180
+
+ubuntu@ip-172-31-22-219:~/go_server$ curl localhost:8090/hello
+hello
+
+```
+
+Now inspect the size of the image, its only 13 MB due to multi stage build
+
+```
+ubuntu@ip-172-31-22-219:~/go_server$ sudo docker images
+REPOSITORY                        TAG               IMAGE ID       CREATED              SIZE
+swararoy-multistage-http-server   v1                126a4de775d6   About a minute ago   13MB
+
+```
