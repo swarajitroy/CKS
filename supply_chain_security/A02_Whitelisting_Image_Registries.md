@@ -19,5 +19,8 @@ For our work - we will do 1 and 3.
 ---
 
 1. We will use a docker image as described at https://github.com/kainlite/kube-image-bouncer - flavio/kube-image-bouncer
-2. Create the Certificate and Private Key using OpenSSL (server side - which is the Kube Image Bouncer)
-3. 
+2. Create the Certificate and Private Key using OpenSSL (server side - which is the Kube Image Bouncer) 
+3. Create a Secret of TLS type with the  Kube Image Bouncer server certificate and private key 
+4. Design a Pod with image flavio/kube-image-bouncer, with a command argument to whitelist few registries and injecting the secret as volumes
+5. Create a Deployment with the pod 
+6. Expose the deployment as a NodePort Service
