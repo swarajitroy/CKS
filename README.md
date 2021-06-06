@@ -42,7 +42,7 @@
 ---
 | ID | Topic | Remarks |
 | ----------- | ----------- | ----------- |
-| 01 | Minimize Base image footprint |   |
+| 01 | [Minimize Base image footprint](https://github.com/swarajitroy/CKS/blob/main/supply_chain_security/A01_reduce_base_image_footprint.md) |   |
 | 02 | Whitelisting allowed image registry, sign and validate images |   |
 | 03 | Use Static Analysis of user workloads - Kubernetes Manifests and Docker files |   |
 | 04 | Scan Images for known Vulnerability |   |
