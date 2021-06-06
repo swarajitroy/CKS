@@ -24,3 +24,18 @@ For our work - we will do 1 and 3.
 4. Design a Pod with image flavio/kube-image-bouncer, with a command argument to whitelist few registries and injecting the secret as volumes
 5. Create a Deployment with the pod 
 6. Expose the deployment as a NodePort Service
+
+### 01.B Enable ImagePolicyWebhook at the API Server 
+---
+
+1. Create the Certificate and Private Key using OpenSSL (client side - which is the api server)   
+2. Create configuration json file for ImagePolicyWebhook 
+3. Enable ImagePolicyWebhook at API Server admission controller and attach the configuration json file for ImagePolicyWebhook 
+4. Create the KubeConfig style API server config file for the weebhook 
+
+### 01.C Test Scenario
+---
+
+1. Try to run an image from a repostory from Docker and not using LATEST tag - it should pass
+2. Try to run an image from a repostory from Docker and using LATEST tag - it should fail
+3. Try to run an image from a repostory from Quay and not using LATEST tag - it should fail
