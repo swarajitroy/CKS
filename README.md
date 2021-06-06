@@ -29,7 +29,7 @@
 | 03 | Minimize external access to the network |   |
 | 04 | Appropritately use Kernel hardening tools such as AppArmor, Seccomp |   |
 
-## D. Minimize Microservices Vulnerabilities
+## D. Minimize Microservices Vulnerabilities (20%)
 ---
 | ID | Topic | Remarks |
 | ----------- | ----------- | ----------- |
@@ -38,7 +38,7 @@
 | 03 | Use Container runtime sandboxes - gvisor, kata containers |   |
 | 04 | Implement pod to pod encryption - mTLS |   |
 
-## E. Supply Chain Security
+## E. Supply Chain Security (20%)
 ---
 | ID | Topic | Remarks |
 | ----------- | ----------- | ----------- |
