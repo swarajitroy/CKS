@@ -52,7 +52,7 @@ func main() {
 
 ```
 
-## The image without Multistate build 
+## The image without Multistage build 
 ---
 
 ```
