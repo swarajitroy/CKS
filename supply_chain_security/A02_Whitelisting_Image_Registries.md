@@ -6,7 +6,6 @@ This can be acheived via AdmissionControllers in Kubernetes. There are multiple 
 2. Use custom Validating Admission Controller - configured with a custom webhook to decide for the ImagePolicyWebhook. 
 3. Use custom Validating Admission Controller - configured with OPA server
 
-For our work - we will do 1 and 3. 
 
 ## 01. ImagePolicyWebhook 
 ---
