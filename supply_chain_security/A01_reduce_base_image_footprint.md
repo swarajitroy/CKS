@@ -114,6 +114,18 @@ Successfully tagged swararoy-http-server:v1
 Run the image
 
 ```
+ubuntu@ip-172-31-22-219:~/go_server$ sudo docker run -d -p 8090:8090 swararoy-http-server:v1
+be84a490c1a90b348a36104145e87f4494d01fb5d523f9bd44446b0a20693056
+ubuntu@ip-172-31-22-219:~/go_server$ curl localhost:8090/hello
+hello
 
+
+```
+Inspect the size of the image - almost a 400 MB image
+
+```
+ubuntu@ip-172-31-22-219:~/go_server$ sudo docker image ls
+REPOSITORY             TAG               IMAGE ID       CREATED          SIZE
+swararoy-http-server   v1                bd043497a603   27 minutes ago   393MB
 
 ```
