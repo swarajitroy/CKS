@@ -89,8 +89,8 @@ spec:
           imagePullPolicy: Always
           image: "kainlite/kube-image-bouncer:latest"
           args:
-            - "--cert=/etc/admission-controller/tls/webhook.pem"
-            - "--key=/etc/admission-controller/tls/webhook-key.pem"
+            - "--cert=/etc/admission-controller/tls/tls.crt"
+            - "--key=/etc/admission-controller/tls/tls.key"
             - "--debug"
             - "--registry-whitelist=docker.io,k8s.gcr.io"
           volumeMounts:
