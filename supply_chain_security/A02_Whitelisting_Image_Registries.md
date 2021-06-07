@@ -71,6 +71,8 @@ Design a Pod with image flavio/kube-image-bouncer, with a command argument to wh
 Expose the deployment as a NodePort Service.
 
 ```
+   
+ubuntu@ip-172-31-22-219:~/imagepolicywebhook/manifests$ cat deployment.yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -87,7 +89,7 @@ spec:
       containers:
         - name: image-bouncer-webhook
           imagePullPolicy: Always
-          image: "kainlite/kube-image-bouncer:latest"
+          image: docker.io/kainlite/kube-image-bouncer:latest
           args:
             - "--cert=/etc/admission-controller/tls/tls.crt"
             - "--key=/etc/admission-controller/tls/tls.key"
@@ -100,8 +102,25 @@ spec:
         - name: tls
           secret:
             secretName: tls-image-bouncer-webhook
----
+    
+    
+ubuntu@ip-172-31-22-219:~/imagepolicywebhook/manifests$ kubectl create -f deployment.yaml
+deployment.apps/image-bouncer-webhook created
 
+ubuntu@ip-172-31-22-219:~/imagepolicywebhook/manifests$ kubectl get deployments
+NAME                    READY   UP-TO-DATE   AVAILABLE   AGE
+application-a           1/1     1            1           4d15h
+image-bouncer-webhook   1/1     1            1           106s
+
+ubuntu@ip-172-31-22-219:~/imagepolicywebhook/manifests$ kubectl get pods
+NAME                                     READY   STATUS    RESTARTS   AGE
+application-a-6555d4f559-ck9pm           1/1     Running   0          4d15h
+image-bouncer-webhook-65c8599b4c-fkqtr   1/1     Running   0          5s
+jupiter                                  1/1     Running   0          9h
+pluto                                    1/1     Running   0          9h
+testpod                                  1/1     Running   0          5d11h
+
+ubuntu@ip-172-31-22-219:~/imagepolicywebhook/manifests$ cat service.yaml
 apiVersion: v1
 kind: Service
 metadata:
@@ -118,6 +137,14 @@ spec:
       nodePort: 30080
   selector:
     app: image-bouncer-webhook
+
+ubuntu@ip-172-31-22-219:~/imagepolicywebhook/manifests$ kubectl create -f service.yaml
+service/image-bouncer-webhook created
+
+ubuntu@ip-172-31-22-219:~/imagepolicywebhook/manifests$ kubectl get svc
+NAME                    TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)         AGE
+image-bouncer-webhook   NodePort    10.105.127.49    <none>        443:30080/TCP   25s
+
 
 
 ```                
