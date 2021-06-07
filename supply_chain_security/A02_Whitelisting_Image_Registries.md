@@ -153,9 +153,35 @@ image-bouncer-webhook   NodePort    10.105.127.49    <none>        443:30080/TCP
 ---
 
 1. Create the Certificate and Private Key using OpenSSL (client side - which is the api server)   
-2. Create configuration json file for ImagePolicyWebhook 
-3. Enable ImagePolicyWebhook at API Server admission controller and attach the configuration json file for ImagePolicyWebhook 
-4. Create the KubeConfig style API server config file for the weebhook 
+
+```
+ubuntu@ip-172-31-22-219:~/imagepolicywebhook/client_cert$ openssl req  -nodes -new -x509 -keyout api-server-client-key.pem -out api-server-client.pem
+Can't load /home/ubuntu/.rnd into RNG
+140006524670400:error:2406F079:random number generator:RAND_load_file:Cannot open file:../crypto/rand/randfile.c:88:Filename=/home/ubuntu/.rnd
+Generating a RSA private key
+.............................................................................................+++++
+.......................................................+++++
+writing new private key to 'api-server-client-key.pem'
+-----
+You are about to be asked to enter information that will be incorporated
+into your certificate request.
+What you are about to enter is what is called a Distinguished Name or a DN.
+There are quite a few fields but you can leave some blank
+For some fields there will be a default value,
+If you enter '.', the field will be left blank.
+-----
+Country Name (2 letter code) [AU]:
+State or Province Name (full name) [Some-State]:
+Locality Name (eg, city) []:
+Organization Name (eg, company) [Internet Widgits Pty Ltd]:
+Organizational Unit Name (eg, section) []:
+Common Name (e.g. server FQDN or YOUR name) []:api-server
+Email Address []:
+
+```
+3. Create configuration json file for ImagePolicyWebhook 
+4. Enable ImagePolicyWebhook at API Server admission controller and attach the configuration json file for ImagePolicyWebhook 
+5. Create the KubeConfig style API server config file for the weebhook 
 
 ### 01.C Test Scenario
 ---
