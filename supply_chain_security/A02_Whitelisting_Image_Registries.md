@@ -179,7 +179,7 @@ image-bouncer-webhook   NodePort    10.105.127.49    <none>        443:30080/TCP
 ### 01.B Enable ImagePolicyWebhook at the API Server 
 ---
 
-1. Create the Certificate and Private Key using OpenSSL (client side - which is the api server)   
+Create the Certificate and Private Key using OpenSSL (client side - which is the api server)   
 
 ```
 ubuntu@ip-172-31-22-219:~/imagepolicywebhook/client_cert$ openssl req  -nodes -new -x509 -keyout api-server-client-key.pem -out api-server-client.pem
@@ -206,9 +206,86 @@ Common Name (e.g. server FQDN or YOUR name) []:api-server
 Email Address []:
 
 ```
-3. Create configuration json file for ImagePolicyWebhook 
-4. Enable ImagePolicyWebhook at API Server admission controller and attach the configuration json file for ImagePolicyWebhook 
-5. Create the KubeConfig style API server config file for the weebhook 
+Create the ImagePolicyWebhook configuration file - its in KubeConfig style. This file contacts the Webhook at  https://image-bouncer-webhook.default.svc:30080/image_policy - which runs as a node port service on port 30080. The image-bouncer-webhook.default.svc is mapped in /etc/hosts file with master node internal IP address.
+
+```
+ubuntu@ip-172-31-22-219:/etc/kubernetes/admission$ cat imagepolicyconfig.yaml
+# clusters refers to the remote service.
+clusters:
+- name: image-checker
+  cluster:
+    certificate-authority: /etc/kubernetes/admission/webhook.pem    # CA for verifying the remote service.
+    server: https://image-bouncer-webhook.default.svc:30080/image_policy  # URL of remote service to query. Must use 'https'.
+
+contexts:
+- context:
+    cluster: image-checker
+    user: api-server
+  name: image-checker
+current-context: image-checker
+preferences: {}
+
+# users refers to the API server's webhook configuration.
+users:
+- name: api-server
+  user:
+    client-certificate: /etc/kubernetes/admission/api-server-client.pem    #cert for the webhook admission controller to use
+    client-key: /etc/kubernetes/admission/api-server-client-key.pem          # key matching the cert
+
+
+```
+
+Create configuration json file for ImagePolicyWebhook  - which should be passed via the  --admission-control-config-file=/etc/kubernetes/admission/imagepolicyconfig.json flag. It holds the location of the webhook kubeconfig file as well as a default behaviour of ImagePolicyWebhook validating admission controller to allow scheduling pods in case the Webhook is unreachable. I have set it as false, which means if the webhook is down - no container can be scheduled.
+
+```
+ubuntu@ip-172-31-22-219:/etc/kubernetes/admission$ cat imagepolicyconfig.json
+{
+  "imagePolicy": {
+     "kubeConfigFile": "/etc/kubernetes/admission/imagepolicyconfig.yaml",
+     "allowTTL": 50,
+     "denyTTL": 50,
+     "retryBackoff": 500,
+     "defaultAllow": false
+  }
+}
+
+
+```
+
+Enable ImagePolicyWebhook at API Server admission controller and attach the configuration json file for ImagePolicyWebhook, 
+
+-Create a directory in Master node named /etc/kubernetes/admission/ and put all the necessary files needed for the ImagePolicyWebhook to run. These would be imagepolicyconfig.yaml, imagepolicyconfig.yaml, webhook.pem, api-server-client.pem & api-server-client-key.pem.
+- Attach it to API server pod as a hostPath based volume mount. Then we mount the volume to pod at /etc/kubernetes/admission 
+- Add ImagePolicyWebhook to command line argument (via enable-admission-plugins parameter)
+- Add path to JSON file (via --admission-control-config-file parameter)
+
+
+```
+ - hostPath:
+      path: /etc/kubernetes/admission
+      type: DirectoryOrCreate
+    name: swararoy-vol
+
+ - mountPath: /etc/kubernetes/admission
+      name: swararoy-vol
+      readOnly: true
+
+ containers:
+  - command:
+    - kube-apiserver
+    - --advertise-address=172.31.22.219
+    - --allow-privileged=true
+    - --authorization-mode=Node,RBAC
+    - --client-ca-file=/etc/kubernetes/pki/ca.crt
+    - --admission-control-config-file=/etc/kubernetes/admission/imagepolicyconfig.json
+    - --enable-admission-plugins=NodeRestriction,PodSecurityPolicy,ImagePolicyWebhook
+
+```
+
+This will restart Kube API server pod and just check with a sample kubectl get nodes to check API server has been brought up.
+
+
+
 
 ### 01.C Test Scenario
 ---
