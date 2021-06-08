@@ -290,15 +290,28 @@ This will restart Kube API server pod and just check with a sample kubectl get n
 ### 01.C Test Scenario
 ---
 
-1. Try to run an image from a repostory from Docker and not using LATEST tag - it should pass
-2. Try to run an image from a repostory from Docker and using LATEST tag - it should fail
+- Try to run an image from a repostory from Docker and not using LATEST tag - it should pass
+
+```
+
+ubuntu@ip-172-31-22-219:~$ kubectl run imagepolicytest2 --image=nginx:1.21.0
+pod/imagepolicytest2 created
+
+ubuntu@ip-172-31-22-219:~$ kubectl get pods
+NAME                                     READY   STATUS    RESTARTS   AGE
+imagepolicytest2                         1/1     Running   0          7s
+
+```
+
+- Try to run an image from a repostory from Docker and using LATEST tag - it should fail
 
 ```
 ubuntu@ip-172-31-22-219:~$ kubectl run imagepolicytest1 --image=nginx
 Error from server (Forbidden): pods "imagepolicytest1" is forbidden: image policy webhook backend denied one or more images: Images using latest tag are not allowed
 
 ```
-4. Try to run an image from a repostory from Quay and not using LATEST tag - it should fail
+
+
 
                                       
                                                       
