@@ -48,3 +48,8 @@
 | 04 | Use Static Analysis of user workloads (KubeSec) - Kubernetes Manifests and Docker files |   |
 | 05 | Use Static Analysis of user workloads (ConfTest) - Kubernetes Manifests and Docker files |   |
 | 06 | Scan Images for known Vulnerability (Trivy) |   |
+
+## F. Monitoring, Logging & Runtime Security  (20%)
+---
+| ID | Topic | Remarks |
+| ----------- | ----------- | ----------- |
