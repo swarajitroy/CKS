@@ -27,7 +27,7 @@
 | 01 | Minimize host OS footprint (reduce attack surface) |   |
 | 02 | Minimize IAM Roles |   |
 | 03 | Minimize external access to the network |   |
-| 04 | Appropritately use Kernel hardening tools such as AppArmor, Seccomp |   |
+| 04 | [Appropritately use Kernel hardening tools such as AppArmor, Seccomp](https://github.com/swarajitroy/CKS/blob/main/system_hardening/A04_Kernel_Hardening_Seccomp_AppArmour.md) |   |
 
 ## D. Minimize Microservices Vulnerabilities (20%)
 ---
