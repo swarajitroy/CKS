@@ -35,5 +35,5 @@ how to fix it, please visit the web page mentioned above.
 }#
 
 ```
-
+https://nieldw.medium.com/curling-the-kubernetes-api-server-d7675cfc398c
   
