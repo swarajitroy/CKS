@@ -269,8 +269,71 @@ apparmor module is loaded.
 
 Now let us define an use case where we want pods not to be able to write to a particular file systems. One way to acheive this would be, 
 
-- Create an AppArmor profile named swararoy-apparmor-deny-write
+- Create an AppArmor profile named  k8s-apparmor-example-deny-write
 - Copy the profile to all Kubernetes worker nodes into default apparmor profile directory
 - Load the profile into Enforcement mode
 - Create a Pod (busybox with sleep command) with apparmor swararoy-apparmor-deny-write profile loaded
 - Exec to the pod and check if the write is getting allowed 
+
+Create an AppArmor profile named  k8s-apparmor-example-deny-write
+
+```
+ubuntu@ip-172-31-17-89:~$ cat k8s-apparmor-example-deny-write
+profile k8s-apparmor-example-deny-write flags=(attach_disconnected) {
+  file,
+  # Deny all file writes.
+  deny /** w,
+}
+
+```
+
+Copy the profile to all Kubernetes worker nodes into default apparmor profile directory
+
+```
+ubuntu@ip-172-31-17-89:~$ cd /etc/apparmor.d/
+ubuntu@ip-172-31-17-89:/etc/apparmor.d$ ls
+abstractions  disable         local  lxc-containers  tunables           usr.bin.man                      usr.sbin.rsyslogd
+cache         force-complain  lxc    sbin.dhclient   usr.bin.lxc-start  usr.lib.snapd.snap-confine.real  usr.sbin.tcpdump
+ubuntu@ip-172-31-17-89:/etc/apparmor.d$ sudo cp ~/k8s-apparmor-example-deny-write .
+ubuntu@ip-172-31-17-89:/etc/apparmor.d$ ls
+abstractions  disable         k8s-apparmor-example-deny-write  lxc             sbin.dhclient  usr.bin.lxc-start  usr.lib.snapd.snap-confine.real  usr.sbin.tcpdump
+cache         force-complain  local                            lxc-containers  tunables       usr.bin.man        usr.sbin.rsyslogd
+
+```
+
+Load the profile into Enforcement mode. There are tools like aa-enforce and aa-complain to load the profile
+
+```
+
+ubuntu@ip-172-31-17-89:/etc/apparmor.d$ sudo aa-enforce /etc/apparmor.d/k8s-apparmor-example-deny-write
+Setting /etc/apparmor.d/k8s-apparmor-example-deny-write to enforce mode.
+ubuntu@ip-172-31-17-89:/etc/apparmor.d$ sudo aa-status
+apparmor module is loaded.
+24 profiles are loaded.
+22 profiles are in enforce mode.
+   /sbin/dhclient
+   /snap/snapd/11841/usr/lib/snapd/snap-confine
+   /snap/snapd/11841/usr/lib/snapd/snap-confine//mount-namespace-capture-helper
+   /snap/snapd/12057/usr/lib/snapd/snap-confine
+   /snap/snapd/12057/usr/lib/snapd/snap-confine//mount-namespace-capture-helper
+   /usr/bin/lxc-start
+   /usr/bin/man
+   /usr/lib/NetworkManager/nm-dhcp-client.action
+   /usr/lib/NetworkManager/nm-dhcp-helper
+   /usr/lib/connman/scripts/dhclient-script
+   /usr/lib/snapd/snap-confine
+   /usr/lib/snapd/snap-confine//mount-namespace-capture-helper
+   /usr/sbin/tcpdump
+   crio-default
+   k8s-apparmor-example-deny-write
+   lxc-container-default
+   lxc-container-default-cgns
+   lxc-container-default-with-mounting
+   lxc-container-default-with-nesting
+   man_filter
+   man_groff
+   snap-update-ns.amazon-ssm-agent
+
+
+
+```
