@@ -198,4 +198,28 @@ metadata:
 ## Apparmor
 ---
 
-https://wiki.debian.org/AppArmor/HowToUse
+In each worker node, check following to inspect the AppArmor setup. 
+
+- AppArmor is enabled, AppArmor service is running
+
+```
+ubuntu@ip-172-31-17-89:~$ cat /sys/module/apparmor/parameters/enabled
+Y
+
+ubuntu@ip-172-31-17-89:~$ sudo systemctl status apparmor
+● apparmor.service - AppArmor initialization
+   Loaded: loaded (/lib/systemd/system/apparmor.service; enabled; vendor preset: enabled)
+   Active: active (exited) since Sun 2021-06-13 04:52:21 UTC; 8h ago
+     Docs: man:apparmor(7)
+           http://wiki.apparmor.net/
+  Process: 463 ExecStart=/etc/init.d/apparmor start (code=exited, status=0/SUCCESS)
+ Main PID: 463 (code=exited, status=0/SUCCESS)
+
+Jun 13 04:52:21 ip-172-31-17-89 apparmor[463]:  * Starting AppArmor profiles
+Jun 13 04:52:21 ip-172-31-17-89 apparmor[463]: Skipping profile in /etc/apparmor.d/disable: usr.sbin.rsyslogd
+Jun 13 04:52:21 ip-172-31-17-89 apparmor[463]:    ...done.
+Jun 13 04:52:21 ip-172-31-17-89 systemd[1]: Starting AppArmor initialization...
+Jun 13 04:52:21 ip-172-31-17-89 systemd[1]: Started AppArmor initialization.
+
+
+```
