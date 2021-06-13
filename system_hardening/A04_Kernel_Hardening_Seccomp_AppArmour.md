@@ -74,3 +74,126 @@ securityContext:
       type: RuntimeDefault
 ```
 
+Lets run a nginx pod with a seccomp profile. 
+
+Create the profile and place it at /var/lib/kubelet/seccomp/profiles/swararoy-seccomp.json on the worker node. 
+
+```
+ubuntu@ip-172-31-17-89:/var/lib$ sudo cat /var/lib/kubelet/seccomp/profiles/swararoy-seccomp.json
+{
+    "defaultAction": "SCMP_ACT_ERRNO",
+    "architectures": [
+        "SCMP_ARCH_X86_64",
+        "SCMP_ARCH_X86",
+        "SCMP_ARCH_X32"
+    ],
+    "syscalls": [
+        {
+            "names": [
+                "accept4",
+                "epoll_wait",
+                "pselect6",
+                "futex",
+                "madvise",
+                "epoll_ctl",
+                "getsockname",
+                "setsockopt",
+                "vfork",
+                "mmap",
+                "read",
+                "write",
+                "close",
+                "arch_prctl",
+                "sched_getaffinity",
+                "munmap",
+                "brk",
+                "rt_sigaction",
+                "rt_sigprocmask",
+                "sigaltstack",
+                "gettid",
+                "clone",
+                "bind",
+                "socket",
+                "openat",
+                "readlinkat",
+                "exit_group",
+                "epoll_create1",
+                "listen",
+                "rt_sigreturn",
+                "sched_yield",
+                "clock_gettime",
+                "connect",
+                "dup2",
+                "epoll_pwait",
+                "execve",
+                "exit",
+                "fcntl",
+                "getpid",
+                "getuid",
+                "ioctl",
+                "mprotect",
+                "nanosleep",
+                "open",
+                "poll",
+                "recvfrom",
+                "sendto",
+                "set_tid_address",
+                "setitimer",
+                "writev"
+            ],
+            "action": "SCMP_ACT_ALLOW"
+        }
+    ]
+}
+
+
+```
+
+Now lets create the pod definition 
+
+```
+ubuntu@ip-172-31-22-219:~/seccomp-practice$ cat seccomp-test-pod.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: null
+  labels:
+    run: seccomp-test-pod
+  name: seccomp-test-pod
+spec:
+  securityContext:
+    seccompProfile:
+      type: Localhost
+      localhostProfile: profiles/swararoy-seccomp.json
+  containers:
+  - image: nginx:1.21.0
+    name: seccomp-test-pod
+    resources: {}
+  dnsPolicy: ClusterFirst
+  restartPolicy: Always
+status: {}
+
+```
+and run the pod
+
+```
+ubuntu@ip-172-31-22-219:~/seccomp-practice$ kubectl create -f seccomp-test-pod.yaml
+Error from server (Forbidden): error when creating "seccomp-test-pod.yaml": pods "seccomp-test-pod" is forbidden: PodSecurityPolicy: unable to admit pod: [pod.metadata.annotations[seccomp.security.alpha.kubernetes.io/pod]: Forbidden: seccomp may not be set pod.metadata.annotations[container.seccomp.security.alpha.kubernetes.io/seccomp-test-pod]: Forbidden: seccomp may not be set]
+
+```
+To solve this error - ensure the PodSecurityPolicy you have allows Seccomp and allows custom seccomp profiles
+
+```
+ubuntu@ip-172-31-22-219:~/podsecuritypolicy$ cat psp.yaml
+apiVersion: policy/v1beta1
+kind: PodSecurityPolicy
+metadata:
+  name: example
+  annotations:
+    seccomp.security.alpha.kubernetes.io/defaultProfileName: runtime/default
+    seccomp.security.alpha.kubernetes.io/allowedProfileNames: '*'
+
+```
+
+
+
