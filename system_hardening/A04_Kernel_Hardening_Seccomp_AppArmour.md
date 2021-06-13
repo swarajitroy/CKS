@@ -60,3 +60,17 @@ exit_group(0)                           = ?
 
 ```
 
+In Kubernetes - we need to create a JSON file - which acts like the secccomp grammer (also called seccomp profile) and keep it at each node /var/lib/kubelet/seccomp/profiles
+Then the support is available via securityContext - where we can load the profile via the hostpath. To help the situation, Kubernetes has a default profile created for us (we don't have to custom develop the JSON - and we can use runtime default
+
+```
+securityContext:
+    seccompProfile:
+      type: Localhost
+      localhostProfile: profiles/violation.json
+
+securityContext:
+    seccompProfile:
+      type: RuntimeDefault
+```
+
