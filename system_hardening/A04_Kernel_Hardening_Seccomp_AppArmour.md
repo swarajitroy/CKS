@@ -366,3 +366,13 @@ hello-apparmor   1/1     Running   0          42s
 
 
 ```
+Exec to the pod and check if the write is getting allowed 
+
+```
+ubuntu@ip-172-31-22-219:~/apparmor-practice$ kubectl exec -it hello-apparmor -- /bin/sh
+~ $ ERRO[0000] permission denied
+touch /tmp/a.txt
+touch: /tmp/a.txt: Permission denied
+
+
+```
