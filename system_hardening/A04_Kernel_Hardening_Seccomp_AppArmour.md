@@ -265,5 +265,12 @@ apparmor module is loaded.
    snap.amazon-ssm-agent.amazon-ssm-agent (1240)
 0 processes are unconfined but have a profile defined.
 
-
 ```
+
+Now let us define an use case where we want pods not to be able to write to a particular file systems. One way to acheive this would be, 
+
+- Create an AppArmor profile named swararoy-apparmor-deny-write
+- Copy the profile to all Kubernetes worker nodes into default apparmor profile directory
+- Load the profile into Enforcement mode
+- Create a Pod (busybox with sleep command) with apparmor swararoy-apparmor-deny-write profile loaded
+- Exec to the pod and check if the write is getting allowed 
