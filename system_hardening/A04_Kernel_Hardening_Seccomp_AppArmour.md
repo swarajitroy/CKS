@@ -272,7 +272,7 @@ Now let us define an use case where we want pods not to be able to write to a pa
 - Create an AppArmor profile named  k8s-apparmor-example-deny-write
 - Copy the profile to all Kubernetes worker nodes into default apparmor profile directory
 - Load the profile into Enforcement mode
-- Create a Pod (busybox with sleep command) with apparmor swararoy-apparmor-deny-write profile loaded
+- Create a Pod (busybox with sleep command) with apparmor k8s-apparmor-example-deny-write profile loaded
 - Exec to the pod and check if the write is getting allowed 
 
 Create an AppArmor profile named  k8s-apparmor-example-deny-write
@@ -334,6 +334,35 @@ apparmor module is loaded.
    man_groff
    snap-update-ns.amazon-ssm-agent
 
+```
+
+Create a Pod (busybox with sleep command) with apparmor k8s-apparmor-example-deny-write profile loaded
+
+```
+
+ubuntu@ip-172-31-22-219:~/apparmor-practice$ cat apparmor-pod.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: hello-apparmor
+  annotations:
+    # Tell Kubernetes to apply the AppArmor profile "k8s-apparmor-example-deny-write".
+    # Note that this is ignored if the Kubernetes node is not running version 1.4 or greater.
+    container.apparmor.security.beta.kubernetes.io/hello: localhost/k8s-apparmor-example-deny-write
+spec:
+  securityContext:
+    runAsUser: 999
+  containers:
+  - name: hello
+    image: busybox:1.33.1
+    command: [ "sh", "-c", "echo 'Hello AppArmor!' && sleep 1h" ]
+
+
+ubuntu@ip-172-31-22-219:~/apparmor-practice$ kubectl create -f apparmor-pod.yaml
+pod/hello-apparmor created
+ubuntu@ip-172-31-22-219:~/apparmor-practice$ kubectl get pod hello-apparmor
+NAME             READY   STATUS    RESTARTS   AGE
+hello-apparmor   1/1     Running   0          42s
 
 
 ```
