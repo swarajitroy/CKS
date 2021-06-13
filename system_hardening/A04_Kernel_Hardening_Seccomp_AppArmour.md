@@ -221,5 +221,49 @@ Jun 13 04:52:21 ip-172-31-17-89 apparmor[463]:    ...done.
 Jun 13 04:52:21 ip-172-31-17-89 systemd[1]: Starting AppArmor initialization...
 Jun 13 04:52:21 ip-172-31-17-89 systemd[1]: Started AppArmor initialization.
 
+```
+
+- AppArmor profiles are loaded - which are in enforcement and which are in complaining mode
+
+```
+ubuntu@ip-172-31-17-89:~$ sudo aa-status
+apparmor module is loaded.
+23 profiles are loaded.
+21 profiles are in enforce mode.
+   /sbin/dhclient
+   /snap/snapd/11841/usr/lib/snapd/snap-confine
+   /snap/snapd/11841/usr/lib/snapd/snap-confine//mount-namespace-capture-helper
+   /snap/snapd/12057/usr/lib/snapd/snap-confine
+   /snap/snapd/12057/usr/lib/snapd/snap-confine//mount-namespace-capture-helper
+   /usr/bin/lxc-start
+   /usr/bin/man
+   /usr/lib/NetworkManager/nm-dhcp-client.action
+   /usr/lib/NetworkManager/nm-dhcp-helper
+   /usr/lib/connman/scripts/dhclient-script
+   /usr/lib/snapd/snap-confine
+   /usr/lib/snapd/snap-confine//mount-namespace-capture-helper
+   /usr/sbin/tcpdump
+   crio-default
+   lxc-container-default
+   lxc-container-default-cgns
+   lxc-container-default-with-mounting
+   lxc-container-default-with-nesting
+   man_filter
+   man_groff
+   snap-update-ns.amazon-ssm-agent
+2 profiles are in complain mode.
+   snap.amazon-ssm-agent.amazon-ssm-agent
+   snap.amazon-ssm-agent.ssm-cli
+44 processes have profiles defined.
+42 processes are in enforce mode.
+   crio-default (807)
+   ...
+   crio-default (5957)
+   crio-default (10934)
+2 processes are in complain mode.
+   snap.amazon-ssm-agent.amazon-ssm-agent (869)
+   snap.amazon-ssm-agent.amazon-ssm-agent (1240)
+0 processes are unconfined but have a profile defined.
+
 
 ```
