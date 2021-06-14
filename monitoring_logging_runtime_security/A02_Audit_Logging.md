@@ -3,6 +3,12 @@
 
 Now enable auditing in this kubernetes cluster. Create a new policy file that will only log events based on the below specifications:
 
+## Example Audit Requirement 
+---
+
+Any pod **deleted** from a namespace called **production** should be audited in a log file - located in host at /var/log/swararoy-kube-audit/kubeprod-audit.yaml
+
+
 
 Namespace: prod
 Operations: delete
