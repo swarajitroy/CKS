@@ -54,6 +54,6 @@
 | ID | Topic | Remarks |
 | ----------- | ----------- | ----------- |
 | 01 | Runtime Security - Behaviour Analysis of Container and Hosts via Falco |   |
-| 02 | Runtime Security - Auditing ||
+| 02 | [Runtime Security - Auditing](https://github.com/swarajitroy/CKS/blob/main/monitoring_logging_runtime_security/A02_Audit_Logging.md) ||
 | 03 | Runtime Security - Immutable Containers ||
 
