@@ -45,8 +45,27 @@ Jun 16 08:15:33 ip-172-31-17-89 falco[11340]: Wed Jun 16 08:15:33 2021: Loading 
 Jun 16 08:15:33 ip-172-31-17-89 falco[11340]: Starting internal webserver, listening on port 8765
 Jun 16 08:15:33 ip-172-31-17-89 falco[11340]: Wed Jun 16 08:15:33 2021: Starting internal webserver, listening on port 8765
 
+```
+The /etc/falco/falco.yaml shows the output goes to standard output and visible via journalctl
+
+```
+stdout_output:
+  enabled: true
 
 ```
 
-## C. Implementation 
+### Test Falco 
 ---
+
+```
+
+ubuntu@ip-172-31-22-219:/etc/kubernetes/manifests$ kubectl exec -it testpod -- /bin/sh
+#
+
+ubuntu@ip-172-31-17-89:~$ journalctl -u falco -f
+
+Jun 16 08:26:38 ip-172-31-17-89 falco[11340]: 08:26:38.872098264: Notice A shell was spawned in a container with an attached terminal (user=root user_loginuid=-1 <NA> (id=70d0840e4d40) shell=sh parent=runc cmdline=sh terminal=34816 container_id=70d0840e4d40 image=<NA>)
+Jun 16 08:26:38 ip-172-31-17-89 falco[11340]: 08:26:38.872098264: Notice A shell was spawned in a container with an attached terminal (user=root user_loginuid=-1 <NA> (id=70d0840e4d40) shell=sh parent=runc cmdline=sh terminal=34816 container_id=70d0840e4d40 image=<NA>)
+
+
+```
