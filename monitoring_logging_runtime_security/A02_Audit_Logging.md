@@ -74,3 +74,17 @@ and mount to hostpath to container file systems
 
 
 ```
+
+###  D. Test
+---
+
+Delete a pod in production namespace and check the audit log file.
+
+```
+ubuntu@ip-172-31-22-219:/etc/kubernetes/manifests$ cat /var/log/swararoy-kube-audit/swararoy-kube-audit.log
+
+{"kind":"Event","apiVersion":"audit.k8s.io/v1","level":"RequestResponse","auditID":"1fe19559-0de2-4d09-aff4-23af76fed825","stage":"RequestReceived","requestURI":"/api/v1/namespaces/production/pods/hello-kube-audit","verb":"delete","user":{"username":"kubernetes-admin","groups":["system:masters","system:authenticated"]},"sourceIPs":["172.31.22.219"],"userAgent":"kubectl/v1.21.0 (linux/amd64) kubernetes/cb303e6","objectRef":{"resource":"pods","namespace":"production","name":"hello-kube-audit","apiVersion":"v1"},"requestReceivedTimestamp":"2021-06-14T18:34:10.297371Z","stageTimestamp":"2021-06-14T18:34:10.297371Z"}
+
+
+```
+
