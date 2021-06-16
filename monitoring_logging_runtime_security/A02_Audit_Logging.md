@@ -65,4 +65,12 @@ and mount to hostpath to container file systems
 
 ```
 
+###  C. Update APIServer to change the Auditing
+---
 
+```
+    - --audit-policy-file=/etc/kubernetes/audit-policy/swararoy_kube_audit_policy.yaml
+    - --audit-log-path=/var/log/swararoy-kube-audit/swararoy-kube-audit.log
+
+
+```
