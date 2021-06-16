@@ -69,3 +69,13 @@ Jun 16 08:26:38 ip-172-31-17-89 falco[11340]: 08:26:38.872098264: Notice A shell
 
 
 ```
+
+### Falco Rules
+---
+
+Rules file are kept at,
+
+```
+ubuntu@ip-172-31-17-89:~$ cat /etc/falco/falco_rules.yaml
+```
+
