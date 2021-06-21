@@ -32,9 +32,15 @@ mars                   Active   16d
 production             Active   5d
 
 ubuntu@ip-172-31-22-219:~$ kubectl get svc -n kubernetes-dashboard
-NAME                        TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)    AGE
-dashboard-metrics-scraper   ClusterIP   10.99.166.12    <none>        8000/TCP   3m42s
-kubernetes-dashboard        ClusterIP   10.97.131.208   <none>        443/TCP    3m42s
+NAME                        TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)          AGE
+dashboard-metrics-scraper   ClusterIP   10.99.166.12     <none>        8000/TCP         47h
+kubernetes-dashboard        ClusterIP   10.97.131.208    <none>        443/TCP          47h
+kubernetes-dashboard-2      NodePort    10.110.226.114   <none>        8443:30007/TCP   46h
+ubuntu@ip-172-31-22-219:~$ kubectl get pods -n kubernetes-dashboard
+NAME                                         READY   STATUS    RESTARTS   AGE
+dashboard-metrics-scraper-856586f554-jnqlf   1/1     Running   0          36h
+kubernetes-dashboard-78c79f97b4-nmgkt        1/1     Running   0          36h
+
 
 
 ```
