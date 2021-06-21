@@ -44,3 +44,5 @@ kubernetes-dashboard-78c79f97b4-nmgkt        1/1     Running   0          36h
 
 
 ```
+
+![Kubernetes Dashboard](https://github.com/swarajitroy/CKS/blob/main/kubernetes-dashboard.png)
