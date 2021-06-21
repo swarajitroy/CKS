@@ -46,3 +46,57 @@ kubernetes-dashboard-78c79f97b4-nmgkt        1/1     Running   0          36h
 ```
 
 ![Kubernetes Dashboard](https://github.com/swarajitroy/CKS/blob/main/kubernetes-dashboard.png)
+
+```
+ubuntu@ip-172-31-22-219:~/rbac-practice$ kubectl describe sa guiviewer
+Name:                guiviewer
+Namespace:           default
+Labels:              <none>
+Annotations:         <none>
+Image pull secrets:  <none>
+Mountable secrets:   guiviewer-token-kf5h6
+Tokens:              guiviewer-token-kf5h6
+Events:              <none>
+
+ubuntu@ip-172-31-22-219:~/rbac-practice$ cat pod-reader-role.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  namespace: default
+  name: pod-reader
+rules:
+- apiGroups: [""] # "" indicates the core API group
+  resources: ["pods"]
+  verbs: ["get", "watch", "list"]
+
+ubuntu@ip-172-31-22-219:~/rbac-practice$ kubectl create -f pod-reader-role.yaml
+role.rbac.authorization.k8s.io/pod-reader created
+ubuntu@ip-172-31-22-219:~/rbac-practice$ kubectl get role
+NAME                CREATED AT
+pod-reader          2021-06-21T18:14:52Z
+
+ubuntu@ip-172-31-22-219:~/rbac-practice$ cat pod-reader-rolebinding.yaml
+apiVersion: rbac.authorization.k8s.io/v1
+# This role binding allows "jane" to read pods in the "default" namespace.
+# You need to already have a Role named "pod-reader" in that namespace.
+kind: RoleBinding
+metadata:
+  name: read-pods
+  namespace: default
+subjects:
+# You can specify more than one "subject"
+- kind: ServiceAccount
+  name: guiviewer
+  namespace: default
+roleRef:
+  # "roleRef" specifies the binding to a Role / ClusterRole
+  kind: Role #this must be Role or ClusterRole
+  name: pod-reader # this must match the name of the Role or ClusterRole you wish to bind to
+  apiGroup: rbac.authorization.k8s.io
+
+ubuntu@ip-172-31-22-219:~/rbac-practice$ kubectl get rolebindings
+NAME                        ROLE                     AGE
+read-pods                   Role/pod-reader          10s
+
+
+```
