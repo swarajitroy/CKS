@@ -1,4 +1,10 @@
-kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.2.0/aio/deploy/recommended.yaml
+# Minimize Kubernetes Dashboard GUI Persmissions
+
+
+## 01. Install & Expose Kuberenets Dashboard
+---
+
+Kubernetes Dashboard can be installed via the following YAML manifests. We then additionally create a node port service (not a good practice) to access the dashboard. One of the better way to expose this is via kubectl proxy. 
 
 ```
 
@@ -46,6 +52,10 @@ kubernetes-dashboard-78c79f97b4-nmgkt        1/1     Running   0          36h
 ```
 
 ![Kubernetes Dashboard](https://github.com/swarajitroy/CKS/blob/main/kubernetes-dashboard.png)
+
+
+## Create a Service Account and only allow View Pods 
+---
 
 ```
 ubuntu@ip-172-31-22-219:~/rbac-practice$ kubectl describe sa guiviewer
@@ -98,5 +108,9 @@ ubuntu@ip-172-31-22-219:~/rbac-practice$ kubectl get rolebindings
 NAME                        ROLE                     AGE
 read-pods                   Role/pod-reader          10s
 
+ubuntu@ip-172-31-22-219:~$ kubectl auth can-i get  pods --as system:serviceaccount:default:guiviewer
+yes
+ubuntu@ip-172-31-22-219:~$ kubectl auth can-i get  deployments --as system:serviceaccount:default:guiviewer
+no
 
 ```
