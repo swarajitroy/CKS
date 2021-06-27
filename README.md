@@ -35,7 +35,7 @@
 | ----------- | ----------- | ----------- |
 | 01 | [Setup appropriate OS Leve security domains - PodSecurityPolicies, OPA, SecurityContext](https://github.com/swarajitroy/CKS/blob/main/minimize_microservice_vulnerability/A01_SC_PSP_OPA.md) |   |
 | 02 | [Manage Kubernetes Secrets](https://github.com/swarajitroy/CKS/blob/main/minimize_microservice_vulnerability/A02_ManageSecrets.md) |   |
-| 03 | Use Container runtime sandboxes - gvisor, kata containers |   |
+| 03 | [Use Container runtime sandboxes - gvisor, kata containers](https://github.com/swarajitroy/CKS/blob/main/minimize_microservice_vulnerability/A03_1_GVisor.md) |   |
 | 04 | Implement pod to pod encryption - mTLS |   |
 
 ## E. Supply Chain Security (20%)
