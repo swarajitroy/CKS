@@ -44,10 +44,9 @@
 | ----------- | ----------- | ----------- |
 | 01 | [Minimize Base image footprint](https://github.com/swarajitroy/CKS/blob/main/supply_chain_security/A01_reduce_base_image_footprint.md) |   |
 | 02 | [Whitelisting allowed image registry via ImagePolicyWebhook](https://github.com/swarajitroy/CKS/blob/main/supply_chain_security/A02_Whitelisting_Image_Registries.md)|   |
-| 03 | Whitelisting allowed image registry via OPA |   |
-| 04 | Use Static Analysis of user workloads (KubeSec) - Kubernetes Manifests and Docker files |   |
-| 05 | Use Static Analysis of user workloads (ConfTest) - Kubernetes Manifests and Docker files |   |
-| 06 | Scan Images for known Vulnerability (Trivy) |   |
+| 03 | Use Static Analysis of user workloads (KubeSec) - Kubernetes Manifests and Docker files |   |
+| 04 | Use Static Analysis of user workloads (ConfTest) - Kubernetes Manifests and Docker files |   |
+| 05 | Scan Images for known Vulnerability (Trivy) |   |
 
 ## F. Monitoring, Logging & Runtime Security  (20%)
 ---
