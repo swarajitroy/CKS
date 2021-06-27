@@ -46,7 +46,7 @@
 | 02 | [Whitelisting allowed image registry via ImagePolicyWebhook](https://github.com/swarajitroy/CKS/blob/main/supply_chain_security/A02_Whitelisting_Image_Registries.md)|   |
 | 03 | [Use Static Analysis of user workloads (KubeSec) - Kubernetes Manifests and Docker files](https://github.com/swarajitroy/CKS/blob/main/supply_chain_security/A04_StaticAnalysis_Kubesec.md) |   |
 | 04 | Use Static Analysis of user workloads (ConfTest) - Kubernetes Manifests and Docker files |   |
-| 05 | Scan Images for known Vulnerability (Trivy) |   |
+| 05 | [Scan Images for known Vulnerability (Trivy)](https://github.com/swarajitroy/CKS/blob/main/supply_chain_security/A05_ImageVulnerabilityScan_Trivy.md) |   |
 
 ## F. Monitoring, Logging & Runtime Security  (20%)
 ---
