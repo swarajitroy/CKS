@@ -31,3 +31,15 @@
 
 ### B.01. Drain the Master Node
 ---
+
+### B.02. Upgrade kubeadm on Master Node
+---
+
+### B.03. Kubeadm Upgrade Node
+---
+### B.04. Upgrade Kubelet version
+---
+
+### B.05. Uncordon Worker Node
+---
+
