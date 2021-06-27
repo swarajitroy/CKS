@@ -166,7 +166,7 @@ kubectl set on hold.
 
 ```
 
-### A.06 . Uncordon Master Node
+### A.06 . Check Version
 ---
 
 ```
@@ -183,14 +183,26 @@ ip-172-31-22-219   Ready    control-plane,master   74d   v1.21.1
 ## B. Upgrade Worker Node
 ---
 
-### B.01. Drain the Master Node
+### B.01. Drain the Worker Node
 ---
 
-### B.02. Upgrade kubeadm on Master Node
+### B.02. Upgrade kubeadm on Worker Node
 ---
 
 ### B.03. Kubeadm Upgrade Node
 ---
+```
+ubuntu@ip-172-31-17-89:~$ sudo kubeadm upgrade node
+[upgrade] Reading configuration from the cluster...
+[upgrade] FYI: You can look at this config file with 'kubectl -n kube-system get cm kubeadm-config -o yaml'
+[preflight] Running pre-flight checks
+[preflight] Skipping prepull. Not a control plane node.
+[upgrade] Skipping phase. Not a control plane node.
+[kubelet-start] Writing kubelet configuration to file "/var/lib/kubelet/config.yaml"
+[upgrade] The configuration for this node was successfully updated!
+[upgrade] Now you should go ahead and upgrade the kubelet package using your package manager.
+
+```
 ### B.04. Upgrade Kubelet version
 ---
 
