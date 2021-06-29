@@ -24,7 +24,7 @@
 ---
 | ID | Topic | Remarks |
 | ----------- | ----------- | ----------- |
-| 01 | [Minimize host OS footprint (reduce attack surface) |](https://github.com/swarajitroy/CKS/blob/main/system_hardening/A01_ReduceAttackSurface.md)   |
+| 01 | [Minimize host OS footprint (reduce attack surface)](https://github.com/swarajitroy/CKS/blob/main/system_hardening/A01_ReduceAttackSurface.md)  | |
 | 02 | Minimize IAM Roles |   |
 | 03 | Minimize external access to the network |   |
 | 04 | [Appropritately use Kernel hardening tools such as AppArmor, Seccomp](https://github.com/swarajitroy/CKS/blob/main/system_hardening/A04_Kernel_Hardening_Seccomp_AppArmour.md) |   |
