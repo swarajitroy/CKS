@@ -25,3 +25,7 @@ This is too open a setup - with all the 5 pods across 3 namespaces can communica
 
 Lets add a Network policy that ONLY pods from leaf-namespace and having following labels application=leaf and tier=app can talk to this database pod (application=leaf and tier=db and a name=app-db and image=nginx. )
 
+## Application Pod Network Policy 
+---
+
+Lets add a Network policy that ONLY pods from leaf-namespace and having following labels application=leaf and tier=frontend can talk to this application  pod. Also the pod  application=leaf and tier=app and image=nginx from upstream-namespace should be able to connect as well. Also the application pod in leaf-namespace should be able to send data to  downtream-namespace and then a pod which has following labels application=leaf and tier=app and image=nginx
