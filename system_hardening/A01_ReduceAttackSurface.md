@@ -58,7 +58,7 @@ openlitespeed/bionic,now 1.7.11-1+bionic amd64 [installed]
 ## 04. Stop and Disable the service for the port
 ---
 
-
+```
 
 ubuntu@ip-172-31-22-219:~$ sudo systemctl stop lshttpd.service
 ubuntu@ip-172-31-22-219:~$ sudo systemctl status lshttpd.service
@@ -78,6 +78,7 @@ ubuntu@ip-172-31-22-219:~$ sudo systemctl status lshttpd.service
 ● lshttpd.service - OpenLiteSpeed HTTP Server
    Loaded: loaded (/etc/systemd/system/lshttpd.service; disabled; vendor preset: enabled)
    Active: inactive (dead)
+```
 
 ## 05. Remove the program for the port
 ---
