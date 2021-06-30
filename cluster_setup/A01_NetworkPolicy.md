@@ -3,9 +3,9 @@
 ## Use Case
 ---
 
--- Lets consider we have a namespace called "leaf-namespace" where we run a 3 tier application - Frond End, Application Service and Backend DB. 
--- Lets consider there is another namespace "upstream-namespace" - where an application is supposed to connect to Application Service Pod in "leaf-namespace" to send some data.
--- Lets consider the Application Service pod in "leaf-namespace" is supposed to send some data to an application pod in "downstream-namespace" 
+- Lets consider we have a namespace called "leaf-namespace" where we run a 3 tier application - Frond End, Application Service and Backend DB. 
+- Lets consider there is another namespace "upstream-namespace" - where an application is supposed to connect to Application Service Pod in "leaf-namespace" to send some data.
+- Lets consider the Application Service pod in "leaf-namespace" is supposed to send some data to an application pod in "downstream-namespace" 
 
 All pods can be implemented as NGINX one. 
 
