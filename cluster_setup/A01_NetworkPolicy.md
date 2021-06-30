@@ -28,4 +28,6 @@ Lets add a Network policy that ONLY pods from leaf-namespace and having followin
 ## Application Pod Network Policy 
 ---
 
-Lets add a Network policy that ONLY pods from leaf-namespace and having following labels application=leaf and tier=frontend can talk to this application  pod. Also the pod  application=leaf and tier=app and image=nginx from upstream-namespace should be able to connect as well. Also the application pod in leaf-namespace should be able to send data to  downtream-namespace and then a pod which has following labels application=leaf and tier=app and image=nginx
+- Lets add a Network policy that ONLY pods from leaf-namespace and having following labels application=leaf and tier=frontend can talk to this application  pod. 
+- Also the pod  application=leaf and tier=app and image=nginx from upstream-namespace should be able to connect as well. 
+- Also the application pod in leaf-namespace should be able to send data to  downtream-namespace and then a pod which has following labels application=leaf and tier=app and image=nginx
