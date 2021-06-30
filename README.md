@@ -4,7 +4,7 @@
 ---
 | ID | Topic | Remarks |
 | ----------- | ----------- | ----------- |
-| 01 | Use Network Security Policies |  https://github.com/ahmetb/kubernetes-network-policy-recipes |
+| 01 | [Use Network Security Policies](https://github.com/swarajitroy/CKS/blob/main/cluster_setup/A01_NetworkPolicy.md) |  https://github.com/ahmetb/kubernetes-network-policy-recipes |
 | 02 | Use CIS Benchmarks (tool KubeBench) | https://github.com/aquasecurity/kube-bench |
 | 03 | [Properly setup Ingress objects with Security control](https://github.com/swarajitroy/CKS/blob/main/cluster_setup/A03_Ingress_Security_Control.md) ||
 | 04 | [Protect node metadata and endpoints](https://github.com/swarajitroy/CKS/blob/main/cluster_setup/A04_protect_node_metadata.md)|| 
