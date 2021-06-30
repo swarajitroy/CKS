@@ -82,6 +82,7 @@ ubuntu@ip-172-31-22-219:~$ sudo systemctl status lshttpd.service
 ## 05. Remove the program for the port
 ---
 
+```
 ubuntu@ip-172-31-22-219:~$ sudo apt-get remove openlitespeed
 Reading package lists... Done
 Building dependency tree
