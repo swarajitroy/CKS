@@ -1,6 +1,9 @@
+# Reduce Attack Surface
 
-Intall Openlitespeed
 
+## 01. Create an Attack Surface
+---
+Intall Openlitespeed and port 7080 will be taken up by the server process. 
 https://openlitespeed.org/kb/install-ols-from-litespeed-repositories/
 
 ```
@@ -8,54 +11,7 @@ ubuntu@ip-172-31-22-219:~$ sudo wget -O - http://rpms.litespeedtech.com/debian/e
 --2021-06-29 18:19:24--  http://rpms.litespeedtech.com/debian/enable_lst_debian_repo.sh
 Resolving rpms.litespeedtech.com (rpms.litespeedtech.com)... 52.55.120.73
 Connecting to rpms.litespeedtech.com (rpms.litespeedtech.com)|52.55.120.73|:80... connected.
-HTTP request sent, awaiting response... 200 OK
-Length: 3644 (3.6K) [application/x-sh]
-Saving to: ‘STDOUT’
 
--                                               100%[====================================================================================================>]   3.56K  --.-KB/s    in 0s
-
-2021-06-29 18:19:24 (386 MB/s) - written to stdout [3644/3644]
-
- detecting OS type :
-detected OS: ubuntu - 18.04
- now enable the LiteSpeed Debian Repo
- register LiteSpeed GPG key
---2021-06-29 18:19:25--  http://rpms.litespeedtech.com/debian/lst_debian_repo.gpg
-Resolving rpms.litespeedtech.com (rpms.litespeedtech.com)... 52.55.120.73
-Connecting to rpms.litespeedtech.com (rpms.litespeedtech.com)|52.55.120.73|:80... connected.
-HTTP request sent, awaiting response... 200 OK
-Length: 1198 (1.2K) [application/octet-stream]
-Saving to: ‘/etc/apt/trusted.gpg.d/lst_debian_repo.gpg’
-
-/etc/apt/trusted.gpg.d/lst_debian_repo.gpg      100%[====================================================================================================>]   1.17K  --.-KB/s    in 0s
-
-2021-06-29 18:19:25 (160 MB/s) - ‘/etc/apt/trusted.gpg.d/lst_debian_repo.gpg’ saved [1198/1198]
-
---2021-06-29 18:19:25--  http://rpms.litespeedtech.com/debian/lst_repo.gpg
-Resolving rpms.litespeedtech.com (rpms.litespeedtech.com)... 52.55.120.73
-Connecting to rpms.litespeedtech.com (rpms.litespeedtech.com)|52.55.120.73|:80... connected.
-HTTP request sent, awaiting response... 200 OK
-Length: 2336 (2.3K) [application/octet-stream]
-Saving to: ‘/etc/apt/trusted.gpg.d/lst_repo.gpg’
-
-/etc/apt/trusted.gpg.d/lst_repo.gpg             100%[====================================================================================================>]   2.28K  --.-KB/s    in 0s
-
-2021-06-29 18:19:25 (280 MB/s) - ‘/etc/apt/trusted.gpg.d/lst_repo.gpg’ saved [2336/2336]
-
- update the repo
-Hit:1 http://us-east-2.ec2.archive.ubuntu.com/ubuntu bionic InRelease
-Hit:2 http://us-east-2.ec2.archive.ubuntu.com/ubuntu bionic-updates InRelease
-Hit:3 http://us-east-2.ec2.archive.ubuntu.com/ubuntu bionic-backports InRelease
-Hit:4 http://security.ubuntu.com/ubuntu bionic-security InRelease
-Ign:5 http://rpms.litespeedtech.com/debian bionic InRelease
-Get:6 http://rpms.litespeedtech.com/debian bionic Release [1653 B]
-Get:7 http://rpms.litespeedtech.com/debian bionic Release.gpg [836 B]
-Hit:9 http://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable:/cri-o:/1.20/xUbuntu_18.04  InRelease
-Get:8 https://packages.cloud.google.com/apt kubernetes-xenial InRelease [9383 B]
-Hit:10 https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable/xUbuntu_18.04  InRelease
-Get:11 http://rpms.litespeedtech.com/debian bionic/main amd64 Packages [22.4 kB]
-Fetched 34.3 kB in 1s (50.0 kB/s)
-Reading package lists... Done
 N: Ignoring file 'devel:kubic:libcontainers:stable:cri-o:18.04.5' in directory '/etc/apt/sources.list.d/' as it has an invalid filename extension
  All done, congratulations and enjoy !
 
@@ -77,15 +33,32 @@ Jun 29 18:20:21 ip-172-31-22-219 systemd[1]: Starting OpenLiteSpeed HTTP Server.
 Jun 29 18:20:22 ip-172-31-22-219 lswsctrl[16287]: [OK] litespeed: pid=16330.
 Jun 29 18:20:24 ip-172-31-22-219 systemd[1]: Started OpenLiteSpeed HTTP Server.
 
+```
+
+## 02. Understand the process behind the port
+---
+
+```
 ubuntu@ip-172-31-22-219:~$  sudo netstat -natulp | grep 7080
 tcp        0      0 0.0.0.0:7080            0.0.0.0:*               LISTEN      16330/openlitespeed
 udp        0      0 0.0.0.0:7080            0.0.0.0:*                           16330/openlitespeed
 
 ubuntu@ip-172-31-22-219:~$ sudo systemctl list-units -t service --state=active| grep -i openlitespeed
 lshttpd.service                                loaded active running OpenLiteSpeed HTTP Server
+```
 
+## 03. Understand the installed program for the port
+
+```
 ubuntu@ip-172-31-22-219:~$ sudo apt list --installed | grep -i openlitespeed
 openlitespeed/bionic,now 1.7.11-1+bionic amd64 [installed]
+
+```
+
+## 04. Stop and Disable the service for the port
+---
+
+
 
 ubuntu@ip-172-31-22-219:~$ sudo systemctl stop lshttpd.service
 ubuntu@ip-172-31-22-219:~$ sudo systemctl status lshttpd.service
@@ -97,12 +70,6 @@ ubuntu@ip-172-31-22-219:~$ sudo systemctl status lshttpd.service
  Main PID: 16330
    CGroup: /system.slice/lshttpd.service
 
-Jun 29 18:20:21 ip-172-31-22-219 systemd[1]: Starting OpenLiteSpeed HTTP Server...
-Jun 29 18:20:22 ip-172-31-22-219 lswsctrl[16287]: [OK] litespeed: pid=16330.
-Jun 29 18:20:24 ip-172-31-22-219 systemd[1]: Started OpenLiteSpeed HTTP Server.
-Jun 29 18:37:22 ip-172-31-22-219 systemd[1]: Stopping OpenLiteSpeed HTTP Server...
-Jun 29 18:37:22 ip-172-31-22-219 lswsctrl[12573]: [OK] litespeed: graceful stop.
-Jun 29 18:37:22 ip-172-31-22-219 systemd[1]: Stopped OpenLiteSpeed HTTP Server.
 ubuntu@ip-172-31-22-219:~$ sudo systemctl disable lshttpd.service
 Removed /etc/systemd/system/lsws.service.
 Removed /etc/systemd/system/openlitespeed.service.
@@ -112,12 +79,8 @@ ubuntu@ip-172-31-22-219:~$ sudo systemctl status lshttpd.service
    Loaded: loaded (/etc/systemd/system/lshttpd.service; disabled; vendor preset: enabled)
    Active: inactive (dead)
 
-Jun 29 18:20:21 ip-172-31-22-219 systemd[1]: Starting OpenLiteSpeed HTTP Server...
-Jun 29 18:20:22 ip-172-31-22-219 lswsctrl[16287]: [OK] litespeed: pid=16330.
-Jun 29 18:20:24 ip-172-31-22-219 systemd[1]: Started OpenLiteSpeed HTTP Server.
-Jun 29 18:37:22 ip-172-31-22-219 systemd[1]: Stopping OpenLiteSpeed HTTP Server...
-Jun 29 18:37:22 ip-172-31-22-219 lswsctrl[12573]: [OK] litespeed: graceful stop.
-Jun 29 18:37:22 ip-172-31-22-219 systemd[1]: Stopped OpenLiteSpeed HTTP Server.
+## 05. Remove the program for the port
+---
 
 ubuntu@ip-172-31-22-219:~$ sudo apt-get remove openlitespeed
 Reading package lists... Done
