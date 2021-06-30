@@ -33,3 +33,23 @@ Lets add a Network policy that ONLY pods from leaf-namespace and having followin
 - Lets add a Network policy that ONLY pods from leaf-namespace and having following labels application=leaf and tier=frontend can talk to this application  pod. 
 - Also the pod  application=leaf and tier=app and image=nginx from upstream-namespace should be able to connect as well. 
 - Also the application pod in leaf-namespace should be able to send data to  downtream-namespace and then a pod which has following labels application=leaf and tier=app and image=nginx
+
+```
+ubuntu@ip-172-31-22-219:~/netpol-practice$ kubectl run leaf-db --image=nginx --labels application=leaf,tier=db  -n leaf-namespace
+pod/leaf-db created
+
+ubuntu@ip-172-31-22-219:~/netpol-practice$ kubectl run lead-frontend --image=nginx --labels application=leaf,tier=frontend  -n leaf-namespace
+pod/lead-frontend created
+
+ubuntu@ip-172-31-22-219:~/netpol-practice$ kubectl run lead-appservice --image=nginx --labels application=leaf,tier=app-service -n leaf-namespace
+pod/lead-appservice created
+
+ubuntu@ip-172-31-22-219:~/netpol-practice$ kubectl get pods -o wide -n leaf-namespace
+NAME              READY   STATUS    RESTARTS   AGE     IP            NODE              NOMINATED NODE   READINESS GATES
+lead-appservice   1/1     Running   0          28s     10.44.0.216   ip-172-31-17-89   <none>           <none>
+lead-frontend     1/1     Running   0          70s     10.44.0.215   ip-172-31-17-89   <none>           <none>
+leaf-db           1/1     Running   0          2m20s   10.44.0.214   ip-172-31-17-89   <none>           <none>
+
+
+```
+
