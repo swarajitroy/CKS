@@ -20,6 +20,8 @@ All pods can be implemented as NGINX one.
 
 This is too open a setup - with all the 5 pods across 3 namespaces can communicate with each other. 
 
+![Use cases](https://github.com/swarajitroy/CKS/blob/main/cluster_setup/20210630_222017.jpg)
+
 ## Database Pod Network Policy 
 ---
 
