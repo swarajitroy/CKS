@@ -16,8 +16,8 @@
 | ID | Topic | Remarks |
 | ----------- | ----------- | ----------- |
 | 01 | [Use Role Based access control (RBAC) to minimize exposure](https://github.com/swarajitroy/CKS/blob/main/cluster_hardening/A01_RBAC.md) |   |
-| 02 | Restrict access to Kubernetes API | |
-| 03 | Excercise caution in using ServiceAccounts e.g disable defaults, minimize permissions on newly created ones | |
+| 02 | [Restrict access to Kubernetes API](https://github.com/swarajitroy/CKS/blob/main/cluster_hardening/A02_RestrictAPIAccess.md) | |
+| 03 | [Excercise caution in using ServiceAccounts e.g disable defaults, minimize permissions on newly created ones](https://github.com/swarajitroy/CKS/blob/main/cluster_hardening/A03_ServiceAccountDefaults.md) | |
 | 04 | [Update Kubernetes Frequently](https://github.com/swarajitroy/CKS/blob/main/cluster_hardening/A04_UpgradeK8s.md) | |
 
 ## C. System Hardening (15%)
