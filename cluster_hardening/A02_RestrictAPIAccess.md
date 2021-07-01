@@ -1,1 +1,2 @@
 https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.21/
+https://nieldw.medium.com/curling-the-kubernetes-api-server-d7675cfc398c
